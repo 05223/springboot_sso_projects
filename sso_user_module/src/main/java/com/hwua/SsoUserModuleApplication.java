@@ -1,4 +1,4 @@
-package com.hwua.sso_user_module;
+package com.hwua;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
