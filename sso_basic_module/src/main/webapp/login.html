@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+</head>
+<body>
+    username:<input type="text" id="username" /><br>
+    password:<input type="password" id="password" /><br>
+    <button id="loginBtn">login</button>
+</body>
+<script type="text/javascript">
+    $("#loginBtn").click(function () {
+        var username = $("#username").val();
+        var password = $("#password").val();
+        $.post("login",{"username":username,"password":password},function (data) {
+
+        },"json");
+    });
+</script>
+</html>
