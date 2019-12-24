@@ -1,9 +1,6 @@
-server:
-  port: 9090
-
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/javaee
+    url: jdbc:mysql://localhost:3306/my
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
