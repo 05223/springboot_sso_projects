@@ -1,8 +1,27 @@
 package com.hwua.domain;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 public class Role {
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", deleted=" + deleted +
+                ", permissions=" + permissions +
+                '}';
+    }
+
+    public Role() {
+    }
+
     private String id;
 
     private String name;
@@ -16,6 +35,22 @@ public class Role {
     private Date updateTime;
 
     private Byte deleted;
+
+
+
+    //权限集合
+    private Set<Permission> permissions;
+    public Set<Permission> getPermissions() {
+        return permissions;
+    }
+    public void setPermissions(Set<Permission> permissions) {
+        this.permissions = permissions;
+    }
+
+
+
+
+
 
     public String getId() {
         return id;

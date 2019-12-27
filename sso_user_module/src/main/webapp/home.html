@@ -25,8 +25,8 @@
                         <span id="nickName" ></span>
                     </a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" data-id="userProper" data-title="基本资料" data-url="/index/users/info" class="menuNvaBar">基本资料</a></dd>
-                        <dd><a href="javascript:;" data-id="userSafe" data-title="安全设置" data-url="/index/users/password" class="menuNvaBar">更换密码</a></dd>
+                        <dd><a href="javascript:;" data-id="userProper" data-title="基本资料" data-url="/users/user_edit.html" class="menuNvaBar">基本资料</a></dd>
+                        <dd><a href="javascript:;" data-id="userSafe" data-title="安全设置" data-url="/users/update_password.html" class="menuNvaBar">更换密码</a></dd>
                         <dd><a href="javascript:;" data-id="userSafe" data-title="关于" data-url="/index/about" class="menuNvaBar">关于</a></dd>
                     </dl>
                 </li>
@@ -145,6 +145,26 @@
         $("#logout").click(function () {
             logoutDialog();
         });
+
+        // $("#btn").click(function () {
+        //     alert("lisi")
+        //     var username = "lisi";
+        //     var password = "123456";
+        //     $.ajax({
+        //         method:"post",
+        //         url:"/user/addUser",
+        //         data:"username="+username+"&password="+password,
+        //         // data:{"username":username,"password":password},
+        //         dataType:"json",
+        //         beforeSend: function(request) {
+        //             request.setRequestHeader("token","eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InpoYW5nc2FuIn0.4qTSrqbNrBVdYKjwrl6qKxHvBaViOekYZqxjBTgoCD8");
+        //         },
+        //         success: function (data) {
+        //             //重定向
+        //             location.href = "home.html";
+        //         }
+        //     });
+        // });
 
     });
     //删除前确认对话框

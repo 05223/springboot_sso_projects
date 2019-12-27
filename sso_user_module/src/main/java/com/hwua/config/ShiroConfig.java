@@ -1,6 +1,5 @@
 package com.hwua.config;
 
-import com.hwua.shiro.MyRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -19,21 +18,23 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSecurityManager(getSecurityManager());
         //登录界面
         shiroFilterFactoryBean.setLoginUrl("/login.html");
-        //成功之后的界面
-        shiroFilterFactoryBean.setSuccessUrl("/pages/success.html");
-        //不需要认证就可以访问的页面
-        shiroFilterFactoryBean.setUnauthorizedUrl("/index.html");
-        //获取过滤器的集合
+
+        //获取过滤器集合
         Map<String, String> filterChainDefinitionMap = shiroFilterFactoryBean.getFilterChainDefinitionMap();
         //设置集合的内容
         /*
         第一个参数是  对应的资源
         第二个参数是  过滤器的名字
          */
-        filterChainDefinitionMap.put("/img/**","anon");
-        filterChainDefinitionMap.put("/public/**","anon");
-        filterChainDefinitionMap.put("/login","anon");
-        filterChainDefinitionMap.put("/**","authc");
+        filterChainDefinitionMap.put("/css/**","anon");
+        filterChainDefinitionMap.put("/images/**","anon");
+        filterChainDefinitionMap.put("/js/**","anon");
+        filterChainDefinitionMap.put("/layui/**","anon");
+        filterChainDefinitionMap.put("/user/login","anon");
+        filterChainDefinitionMap.put("/user/selectUserDetailsByUsername","anon");
+        filterChainDefinitionMap.put("/user/addUser","anon");
+//        filterChainDefinitionMap.put("/**","authc");
+        filterChainDefinitionMap.put("/**","jWTFilter");
         return shiroFilterFactoryBean;
     }
 
@@ -61,8 +62,9 @@ public class ShiroConfig {
     //提供自定义的盐值加密的类
     @Bean("hashedCredentialsMatcher")
     public HashedCredentialsMatcher getHashedCredentialsMatcher(){
+
         //构建盐值加密类,指定加密方式为MD5
-        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher("MD5");
+        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher("md5");
         //加盐次数
         hashedCredentialsMatcher.setHashIterations(2019);
         return hashedCredentialsMatcher;

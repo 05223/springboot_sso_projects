@@ -82,6 +82,31 @@
     id, username, salt, password, phone, dept_id, real_name, nick_name, email, status, 
     sex, deleted, create_id, update_id, create_where, create_time, update_time
   </sql>
+
+  <resultMap id="userSuper" type="user">
+    <id column="id" property="id"></id>
+    <result column="username" property="username"></result>
+    <collection property="roles" resultMap="roleSuper" ofType="role"></collection>
+  </resultMap>
+
+  <resultMap id="roleSuper" type="role">
+    <id column="rid" property="id"></id>
+    <result column="name" property="name"></result>
+    <collection property="permissions" resultMap="permissionSuper" ofType="permission"></collection>
+  </resultMap>
+
+  <resultMap id="permissionSuper" type="permission">
+    <id column="pid" property="id"></id>
+    <result column="pname" property="name"></result>
+  </resultMap>
+
+  <select id="selectRolesByUsername" parameterType="string" resultMap="userSuper">
+        select u.id,u.username,r.id rid,r.name,p.id pid,p.name pname from user u,user_role ur,role r,role_permission rp,permission p
+        where u.id = ur.user_id and ur.role_id = r.id and ur.role_id=rp.role_id
+        and rp.permission_id = p.id and u.username = #{username};
+  </select>
+
+
   <select id="selectByExample" parameterType="com.hwua.domain.UserExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

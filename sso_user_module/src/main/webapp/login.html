@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> 后台管理系统</title>
+    <title>后台管理系统</title>
     <link rel="stylesheet" href="/layui/css/layui.css">
 </head>
 <style>
@@ -66,12 +66,12 @@
         var carousel = layui.carousel
         $(function () {
         form.on('submit(submit)',function (data) {
-            CoreUtil.sendAjax("/sys/user/login",JSON.stringify(data.field),function (res) {
-                CoreUtil.setData("access_token",res.data.accessToken);
-                CoreUtil.setData("refresh_token",res.data.refreshToken);
-                window.location.href="/index/home";
-
+            CoreUtil.sendAjax("/user/login",JSON.stringify(data.field),function (res) {
+                CoreUtil.setData("access_token",res.message);
+                CoreUtil.setData("refresh_token",res.message);
         });
+            localStorage.setItem("token",data.message);
+            window.location.href="/home.html";
             return false;
          });
             //改变下时间间隔、动画类型、高度
@@ -79,7 +79,7 @@
                 elem: '#carousel'
                 ,interval: 2000
                 ,anim: 'fade'
-                , full: true        //全屏
+                ,full: true        //全屏
                 ,width: '100%'
                 ,arrow: 'none'
             })

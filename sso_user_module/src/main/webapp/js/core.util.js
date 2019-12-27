@@ -17,20 +17,19 @@ var CoreUtil = (function () {
                 if(headers == undefined){
 
                 }else if(headers){
-                    request.setRequestHeader("authorization", CoreUtil.getData("access_token"));
+                    request.setRequestHeader("token", CoreUtil.getData("access_token"));
                     request.setRequestHeader("refresh_token", CoreUtil.getData("refresh_token"));
                 }else {
-                    request.setRequestHeader("authorization", CoreUtil.getData("access_token"));
+                    request.setRequestHeader("token", CoreUtil.getData("access_token"));
                 }
-
             },
             success: function (res) {
                 top.layer.close(roleSaveLoading);
                 if (typeof ft == "function") {
-                    if(res.code==401001){ //凭证过期重新登录
+                    if(res.code==401001){//凭证过期重新登录
                         layer.msg("凭证过期请重新登录")
-                        top.window.location.href="/index/login"
-                    }else if(res.code==401002){  //根据后端提示刷新token
+                        top.window.location.href="/login.html"
+                    }else if(res.code==401002){//根据后端提示刷新token
                         /*记录要重复刷新的参数*/
                         var reUrl=url;
                         var reParams=params;
@@ -40,27 +39,25 @@ var CoreUtil = (function () {
                         var reNoAuthorityFt=noAuthorityFt;
                         var reContentType=contentType;
                         var reAsync=async;
-                        /*刷新token  然后存入缓存*/
-                        CoreUtil.sendAjax("/sys/user/token",null,function (res) {
+                        /*刷新token,然后存入缓存*/
+                        CoreUtil.sendAjax("/user/token",null,function (res) {
                             if(res.code==0){
-                                CoreUtil.setData("access_token",res.data);
+                                CoreUtil.setData("access_token",res.message);
                                 /*刷新成功后继续重复请求*/
                                 CoreUtil.sendAjax(reUrl,reParams,reFt,reMethod,reHeaders,reNoAuthorityFt,reContentType,reAsync);
                             }else {
                                 layer.msg("凭证过期请重新登录");
-                                top.window.location.href="/index/login"
+                                top.window.location.href="/login.html"
                             }
                         },"GET",true)
                     }else if(res.code==0) {
                         if(ft!=null&&ft!=undefined){
                             ft(res);
                         }
-
                     }else if(res.code==401008){//无权限响应
                         if(ft!=null&&ft!=undefined){
                             noAuthorityFt(res);
                         }
-
                     } else {
                         layer.msg(res.msg)
                     }
@@ -70,7 +67,7 @@ var CoreUtil = (function () {
             error:function (XMLHttpRequest, textStatus, errorThrown) {
                 top.layer.close(roleSaveLoading);
                if(XMLHttpRequest.status==404){
-                    top.window.location.href="/index/404";
+                    // top.window.location.href="/index/404";
                 }else{
                     layer.msg("服务器好像除了点问题！请稍后试试");
                 }

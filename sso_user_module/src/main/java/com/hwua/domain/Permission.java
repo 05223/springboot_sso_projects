@@ -3,6 +3,28 @@ package com.hwua.domain;
 import java.util.Date;
 
 public class Permission {
+    @Override
+    public String toString() {
+        return "Permission{" +
+                "id='" + id + '\'' +
+                ", code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", perms='" + perms + '\'' +
+                ", url='" + url + '\'' +
+                ", method='" + method + '\'' +
+                ", pid='" + pid + '\'' +
+                ", orderNum=" + orderNum +
+                ", type=" + type +
+                ", status=" + status +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", deleted=" + deleted +
+                '}';
+    }
+
+    public Permission() {
+    }
+
     private String id;
 
     private String code;

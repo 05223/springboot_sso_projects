@@ -1,8 +1,47 @@
 package com.hwua.domain;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 public class User {
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", salt='" + salt + '\'' +
+                ", password='" + password + '\'' +
+                ", phone='" + phone + '\'' +
+                ", deptId='" + deptId + '\'' +
+                ", realName='" + realName + '\'' +
+                ", nickName='" + nickName + '\'' +
+                ", email='" + email + '\'' +
+                ", status=" + status +
+                ", sex=" + sex +
+                ", deleted=" + deleted +
+                ", createId='" + createId + '\'' +
+                ", updateId='" + updateId + '\'' +
+                ", createWhere=" + createWhere +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
+    }
+
+
+    public User() {
+    }
+
+    private Set<Role> roles;
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
     private String id;
 
     private String username;
