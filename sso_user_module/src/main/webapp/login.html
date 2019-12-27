@@ -69,9 +69,10 @@
             CoreUtil.sendAjax("/user/login",JSON.stringify(data.field),function (res) {
                 CoreUtil.setData("access_token",res.message);
                 CoreUtil.setData("refresh_token",res.message);
+                localStorage.setItem("token",data.message);
+                window.location.href="/home.html";
         });
-            localStorage.setItem("token",data.message);
-            window.location.href="/home.html";
+
             return false;
          });
             //改变下时间间隔、动画类型、高度

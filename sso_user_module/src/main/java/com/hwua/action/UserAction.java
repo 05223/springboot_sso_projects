@@ -13,7 +13,11 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @RestController
@@ -40,11 +44,11 @@ public class UserAction {
             if (subject.isAuthenticated()){
                 //设置成功的返回值
                 String token = JWTUtil.encodeToken(user);
+                responseObj.setCode(0);
                 responseObj.setMessage(token);
                 System.out.println("登录成功!");
 
                 //在redis中设置token的值
-
                 redisUtil.setToken(token,user.getPassword());
                 log.info(token);
                 return responseObj;
@@ -88,8 +92,10 @@ public class UserAction {
     }
 
     @PostMapping("/user/updatePassword")
-    public String updatePassword(String token,String oldPassword,String newPassword){
+    public String updatePassword(ServletRequest request, String oldPassword, String newPassword){
         try {
+            HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+            String token = httpServletRequest.getHeader("refresh_token");
             userService.updatePassword(token,oldPassword,newPassword);
             return "信息修改成功!";
         } catch (Exception e) {
