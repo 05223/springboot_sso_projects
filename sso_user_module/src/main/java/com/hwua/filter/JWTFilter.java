@@ -93,7 +93,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
             log.info("redis缓存无此token");
             return true;
         } else {
-            log.info("---------redis缓存有此token,直接登陆!----------");
+            log.info("---------拦截器,redis缓存有此token,直接登陆!----------");
             return true;
         }
 

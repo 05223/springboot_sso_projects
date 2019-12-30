@@ -28,11 +28,13 @@ public class UserAction {
     @Autowired
     private RedisUtil redisUtil;
 
+
     @RequestMapping("/user/login")
     public ResponseData login(@RequestBody User user){
+        
         //获取当前对象
         Subject subject = SecurityUtils.getSubject();
-        System.out.println("登录...");
+        log.info("登录中...");
         //构建返回信息的对象(允许Spring管理)
         ResponseData responseObj = new ResponseData();
         //构建UsernamePasswordToken对象
@@ -61,6 +63,21 @@ public class UserAction {
          //设置失败的返回值
         responseObj.setMessage("login error!!!");
         return responseObj;
+    }
+
+    @RequestMapping("/user/autoLogin")
+    public ResponseData autoLogin(HttpServletRequest httpServletRequest){
+        String paramToken = httpServletRequest.getHeader("refresh_token");
+        if (paramToken!=null) {
+            String tokenValue = redisUtil.getToken(paramToken);
+            if (tokenValue!=null) {
+                ResponseData objectResponseData = new ResponseData();
+                objectResponseData.setCode(0);
+                return objectResponseData;
+
+            }
+        }
+        return null;
     }
 
     @Autowired
@@ -92,11 +109,12 @@ public class UserAction {
     }
 
     @PostMapping("/user/updatePassword")
-    public String updatePassword(ServletRequest request, String oldPassword, String newPassword){
+    public String updatePassword(ServletRequest request, String oldPwd, String newPwd){
         try {
+            log.info("oldPwd:"+oldPwd);
             HttpServletRequest httpServletRequest = (HttpServletRequest) request;
             String token = httpServletRequest.getHeader("refresh_token");
-            userService.updatePassword(token,oldPassword,newPassword);
+            userService.updatePassword(token,oldPwd,newPwd);
             return "信息修改成功!";
         } catch (Exception e) {
             e.printStackTrace();

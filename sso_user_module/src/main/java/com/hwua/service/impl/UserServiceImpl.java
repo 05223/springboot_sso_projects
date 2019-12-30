@@ -7,12 +7,14 @@ import com.hwua.service.UserService;
 import com.hwua.util.JWTUtil;
 import com.hwua.util.PasswordUtil;
 import com.hwua.util.ResponseData;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -91,10 +93,11 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setUsername(username);
         user.setPassword(oldPassword);
-        boolean md5 = PasswordUtil.checkPassword(oldPassword, password, "md5", 2019);
-        if (md5) {
+        System.out.println(username+oldPassword);
+        Md5Hash hash = new Md5Hash(oldPassword, username, 2019);
+        if (password.equals(hash)) {
             //密码加密
-            Md5Hash md5Hash = new Md5Hash(oldPassword, username, 2019);
+            Md5Hash md5Hash = new Md5Hash(newPassword, username, 2019);
             userMapper.updatePassword(username,md5Hash.toString());
             System.out.println("更改成功!");
         }

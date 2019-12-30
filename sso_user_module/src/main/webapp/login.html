@@ -64,7 +64,12 @@
         var $ = jQuery = layui.jquery;
         var form = layui.form;
         var carousel = layui.carousel
+
         $(function () {
+            CoreUtil.sendAjax("/user/login",null,function (res) {
+                location.href("/home.html")
+            },"Post",true);
+
         form.on('submit(submit)',function (data) {
             CoreUtil.sendAjax("/user/login",JSON.stringify(data.field),function (res) {
                 CoreUtil.setData("access_token",res.message);
