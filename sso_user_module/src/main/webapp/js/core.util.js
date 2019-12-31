@@ -52,6 +52,7 @@ var CoreUtil = (function () {
                         },"GET",true)
                     }else if(res.code==0) {
                         if(ft!=null&&ft!=undefined){
+                            layer.msg(res.msg)
                             ft(res);
                         }
                     }else if(res.code==401008){//无权限响应
@@ -69,7 +70,7 @@ var CoreUtil = (function () {
                if(XMLHttpRequest.status==404){
                     // top.window.location.href="/index/404";
                 }else{
-                    layer.msg("服务器好像除了点问题！请稍后试试");
+                    // layer.msg("服务器好像除了点问题！请稍后试试");
                 }
             }
         });

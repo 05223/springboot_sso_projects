@@ -65,16 +65,18 @@
         var form = layui.form;
         var carousel = layui.carousel
 
+        //再次登录,直接跳过
         $(function () {
-            CoreUtil.sendAjax("/user/login",null,function (res) {
-                location.href("/home.html")
+            CoreUtil.sendAjax("/user/autoLogin",null,function (res) {
+                if (res.code==0){
+                    window.location.href="/home.html";
+                }
             },"Post",true);
 
         form.on('submit(submit)',function (data) {
             CoreUtil.sendAjax("/user/login",JSON.stringify(data.field),function (res) {
                 CoreUtil.setData("access_token",res.message);
                 CoreUtil.setData("refresh_token",res.message);
-                localStorage.setItem("token",data.message);
                 window.location.href="/home.html";
         });
 

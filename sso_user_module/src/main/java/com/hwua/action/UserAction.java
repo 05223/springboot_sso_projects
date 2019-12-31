@@ -1,5 +1,6 @@
 package com.hwua.action;
 
+import com.alibaba.fastjson.JSONObject;
 import com.hwua.domain.User;
 import com.hwua.mapper.UserMapper;
 import com.hwua.service.UserService;
@@ -31,10 +32,10 @@ public class UserAction {
 
     @RequestMapping("/user/login")
     public ResponseData login(@RequestBody User user){
-        
+
         //获取当前对象
         Subject subject = SecurityUtils.getSubject();
-        log.info("登录中...");
+        log.info("---------------登录中...-------------------");
         //构建返回信息的对象(允许Spring管理)
         ResponseData responseObj = new ResponseData();
         //构建UsernamePasswordToken对象
@@ -48,11 +49,9 @@ public class UserAction {
                 String token = JWTUtil.encodeToken(user);
                 responseObj.setCode(0);
                 responseObj.setMessage(token);
-                System.out.println("登录成功!");
-
+                log.info("----------------登录成功!---------------");
                 //在redis中设置token的值
                 redisUtil.setToken(token,user.getPassword());
-                log.info(token);
                 return responseObj;
             }
         } catch ( UnknownAccountException uae ) {
@@ -65,6 +64,7 @@ public class UserAction {
         return responseObj;
     }
 
+    //验证是否已经登陆过
     @RequestMapping("/user/autoLogin")
     public ResponseData autoLogin(HttpServletRequest httpServletRequest){
         String paramToken = httpServletRequest.getHeader("refresh_token");
@@ -74,7 +74,6 @@ public class UserAction {
                 ResponseData objectResponseData = new ResponseData();
                 objectResponseData.setCode(0);
                 return objectResponseData;
-
             }
         }
         return null;
@@ -108,18 +107,22 @@ public class UserAction {
         return "信息修改成功!";
     }
 
+    //修改密码
     @PostMapping("/user/updatePassword")
-    public String updatePassword(ServletRequest request, String oldPwd, String newPwd){
+    public ResponseData updatePassword(@RequestBody JSONObject jsonObject,HttpServletRequest httpServletRequest){
+        String newPwd = jsonObject.getString("newPwd");
+        String oldPwd = jsonObject.getString("oldPwd");
+        log.info("oldPwd:"+oldPwd+"newPwd:"+newPwd);
+        ResponseData responseData = new ResponseData();
         try {
-            log.info("oldPwd:"+oldPwd);
-            HttpServletRequest httpServletRequest = (HttpServletRequest) request;
             String token = httpServletRequest.getHeader("refresh_token");
             userService.updatePassword(token,oldPwd,newPwd);
-            return "信息修改成功!";
+            responseData.setCode(0);
+            return responseData;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "修改失败!";
+        return responseData;
     }
 
     //从缓存获取token

@@ -93,13 +93,12 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setUsername(username);
         user.setPassword(oldPassword);
-        System.out.println(username+oldPassword);
         Md5Hash hash = new Md5Hash(oldPassword, username, 2019);
-        if (password.equals(hash)) {
+        if (password.equals(hash.toString())) {
             //密码加密
             Md5Hash md5Hash = new Md5Hash(newPassword, username, 2019);
             userMapper.updatePassword(username,md5Hash.toString());
-            System.out.println("更改成功!");
+            log.info("-----------------------修改成功!---------");
         }
     }
 

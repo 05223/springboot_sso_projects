@@ -3,9 +3,19 @@ package com.hwua.mapper;
 import com.hwua.domain.Dept;
 import com.hwua.domain.DeptExample;
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
+import com.hwua.domain.Permission;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
+
+@Mapper
+@Repository
 public interface DeptMapper {
+
+
+
     long countByExample(DeptExample example);
 
     int deleteByExample(DeptExample example);

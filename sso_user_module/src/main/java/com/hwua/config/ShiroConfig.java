@@ -69,4 +69,5 @@ public class ShiroConfig {
         hashedCredentialsMatcher.setHashIterations(2019);
         return hashedCredentialsMatcher;
     }
+
 }
